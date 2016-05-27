@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>QR Code Reader</title>
+  <script src="components/loader.js"></script>
+  <script src="js/zepto.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>   
+  <link rel="stylesheet" href="css/init-page.css">
+  <link rel="stylesheet" href="css/control-page.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.css">
+  <script src="js/app.js"></script>
+
+
+  <script>
+    // PhoneGap event handler
+    var serverUrl = "http://203.69.6.129:80/";
+    var agentID = "85";
+    var themName = "預設";
+    var agentStatus = "";
+    var agentName = "";
+    var api = {
+        changeScenesById: "lecture/api/Scenes/changeScenesById",
+        agentSearchById: "lecture/api/Search/agentSearchById",
+        startCaptureById: "lecture/api/Command/startCaptureById",
+        stopCaptureById: "lecture/api/Command/stopCaptureById",
+        resumeCaptureById: "lecture/api/Command/resumeCaptureById",
+        pauseCaptureById: "lecture/api/Command/pauseCaptureById",
+    };
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        //scanBarcode();
+    }
+    // 「スキャンする」を押したときに実行される関数
+    function scanBarcode() {
+      // BarcodeScannerプラグインを利用してスキャン
+      window.plugins.barcodeScanner.scan(
+        // 成功時に実行されるコールバック（キャンセル時も含む）
+        function(result) {
+          // キャンセルされたら何もしない
+            if (result.cancelled) {
+                return;
+            }
+           
+        },
+        // エラー時に実行されるコールバック
+        function(error) {
+
+        }
+      );
+    }
+
+    setInterval(function(){ getAgentState(); }, 10000);
+    getAgentState();
+    function getAgentState() {
+        $.ajax({url: serverUrl + api.agentSearchById + "?id=" + agentID , success: function(result){
+            var resultParse = JSON.parse(result);
+            if(resultParse.status != 0){
+                agentStatus = resultParse.data[0].status;
+                agentName = resultParse.data[0].name;
+            }
+            $('#agentStatusLabel').text(agentStatus);
+            switch(agentStatus) {
+                case "Online":
+                    $("#StartButton").css('color', '#4caf50');
+                    $("#StopButton").css('color', 'gray'); 
+                    $("#PauseButton").css('color', 'gray');
+                    $("#ResumeButton").css('color', 'gray');
+                    $("#RescanQRCode").css('color', 'black');
+                    
+                    $("#StartButton").show();
+                    $("#ResumeButton").hide();
+                    break;
+                case "Shutdown":
+                    $("#StartButton").css('color', 'gray');
+                    $("#StopButton").css('color', 'gray'); 
+                    $("#PauseButton").css('color', 'gray');
+                    $("#ResumeButton").css('color', 'gray');
+                    $("#RescanQRCode").css('color', 'black');
+                    
+                    $("#ResumeButton").hide();                   
+                    break;
+                case "Capturing":
+                    $("#StartButton").css('color', 'gray');
+                    $("#StopButton").css('color', '#FF4081'); 
+                    $("#PauseButton").css('color', '#FF9100');
+                    $("#ResumeButton").css('color', 'gray');
+                    $("#RescanQRCode").css('color', 'gray');
+                    
+                    $("#StartButton").show();
+                    $("#ResumeButton").hide();                   
+                    break;
+                case "Pause":
+                    $("#StartButton").css('color', 'gray');
+                    $("#StopButton").css('color', '#FF4081'); 
+                    $("#PauseButton").css('color', 'gray');
+                    $("#ResumeButton").css('color', '#4caf50');
+                    $("#RescanQRCode").css('color', 'gray');
+                    
+                    $("#ResumeButton").show();
+                    $("#StartButton").hide();                    
+                    break;    
+                default:
+                    $("#StartButton").css('color', 'gray');
+                    $("#StopButton").css('color', 'gray'); 
+                    $("#PauseButton").css('color', 'gray');
+                    $("#ResumeButton").css('color', 'gray');
+                    $("#RescanQRCode").css('color', 'black');
+                    
+                    $("#ResumeButton").hide();
+                    break;
+            }
+        }
+        ,error: function(error) {
+
+            console.log(error);
+        }
+        });  
+    }
+
+  </script>
+</head>
+<body>
+<div class="header">
+   <img class="imageLogo" src="cloudpe-logo.png" />
+    <label class="agentStatusLabel pull-right" id="agentStatusLabel"></label>
+    <!--<i class="fa fa-stop-circle stop" id="" aria-hidden="true"></i>-->
+</div>
+<div class="main">
+    <!--
+    
+    <div id="initPage">
+        <div class="get-recode -pic" id="scanScenes">
+        <div class="get-recode__icon " >
+             <i class="fa fa-video-camera fa-2x"></i><br>
+             <b>錄影</b>
+        </div>
+       
+        <small>點擊螢幕掃描QR-CODE</small>
+        </div>
+    </div>
+    -->
+    <div class="controlPage row" id="controlPage">
+        <div class="col-sm-12 status">
+            <label class="agentScenes col-sm-8 col-sm-offset-2" id="agentThemeLabel"></label>
+        </div>
+        <div class="col-sm-12 control-pan">
+            <div class="col-sm-8 col-sm-offset-2">
+                <i class="fa fa-play-circle fa-3x start" id="StartButton" aria-hidden="true"></i>
+                <i class="fa fa-play-circle fa-3x resume" id="ResumeButton" aria-hidden="true"></i>
+                <i class="fa fa-pause-circle fa-3x pause" id="PauseButton" aria-hidden="true"></i>
+                <i class="fa fa-stop-circle fa-3x stop" id="StopButton" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            
+        </div>
+        <label id="agentThemeLabel"></label>
+        <div class="qrDiv" id="RescanQRCodeContainer">
+            <i class="fa fa-qrcode fa-3x" id="RescanQRCode" aria-hidden="true"></i>
+        </div>
+    </div>
+</div>
+ 
+</body>
+</html>

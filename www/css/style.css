@@ -1,0 +1,141 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+ 
+body {
+  font-size: 90%;
+  text-align: center;
+  color: #222;
+  background: #FFF;
+  padding: 10px;
+}
+ 
+#ResultMessage {
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid #CCC;
+}
+ 
+/* ボタンのスタイル */
+button {
+    
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffe0b5;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffe0b5;
+    box-shadow:inset 0px 1px 0px 0px #ffe0b5;
+    
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #fbb450), color-stop(1, #f89306));
+    background:-moz-linear-gradient(top, #fbb450 5%, #f89306 100%);
+    background:-webkit-linear-gradient(top, #fbb450 5%, #f89306 100%);
+    background:-o-linear-gradient(top, #fbb450 5%, #f89306 100%);
+    background:-ms-linear-gradient(top, #fbb450 5%, #f89306 100%);
+    background:linear-gradient(to bottom, #fbb450 5%, #f89306 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fbb450', endColorstr='#f89306',GradientType=0);
+    
+    background-color:#fbb450;
+    
+    -moz-border-radius:7px;
+    -webkit-border-radius:7px;
+    border-radius:7px;
+    
+    border:1px solid #c97e1c;
+    
+    display:inline-block;
+    color:#ffffff;
+    font-family:Trebuchet MS;
+    font-size:24px;
+    font-weight:bold;
+    padding:6px 11px;
+    text-decoration:none;
+    
+    text-shadow:0px 1px 0px #8f7f24;
+    
+}
+button:hover {
+    
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f89306), color-stop(1, #fbb450));
+    background:-moz-linear-gradient(top, #f89306 5%, #fbb450 100%);
+    background:-webkit-linear-gradient(top, #f89306 5%, #fbb450 100%);
+    background:-o-linear-gradient(top, #f89306 5%, #fbb450 100%);
+    background:-ms-linear-gradient(top, #f89306 5%, #fbb450 100%);
+    background:linear-gradient(to bottom, #f89306 5%, #fbb450 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f89306', endColorstr='#fbb450',GradientType=0);
+    
+    background-color:#f89306;
+}
+button:active {
+    position:relative;
+    top:20px;
+}
+#wrapper{   
+
+    margin: 20% 0 0 0;
+    /* Set the margin-left and margin-right automatically set */
+}
+
+#StopButton {
+    background: red;
+    font-size: 36px;
+    width: 40%;
+    height: 50%;
+}
+
+#StartButton {
+    background: green;
+    font-size: 36px;
+    width: 40%;
+    height: 100%;
+}
+
+#PauseButton {
+    background: orange;
+    font-size: 36px;
+    width: 40%;
+    height: 100%;
+}
+
+#ResumeButton {
+    background: blue;
+    font-size: 36px;
+    width: 40%;
+    height: 100%;
+}
+
+#RecordVideo {
+    background: green;
+    font-size: 36px;
+    width: 70%;
+    height: 100%;
+}
+
+#RecordImage {
+    background: blue;
+    font-size: 36px;
+    width: 70%;
+    height: 100%;
+}
+
+#agentStatusLabel {
+    font-size: 36px;
+    width: 50px;
+    height: 42px;
+}
+
+#agentThemeLabel {
+    font-size: 36px;
+    width: 50px;
+    height: 42px;
+}
+
+#RescanQRCodeContainer {
+    margin: auto;
+    margin-top: 50%;
+}
+
+#RescanQRCode {
+    width: 70%;
+}
+
+h1 {
+    margin-top: 5%;
+}
